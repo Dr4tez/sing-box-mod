@@ -16,6 +16,7 @@ type WireGuardEndpointOptions struct {
 	Peers      []WireGuardPeer                  `json:"peers,omitempty"`
 	UDPTimeout badoption.Duration               `json:"udp_timeout,omitempty"`
 	Workers    int                              `json:"workers,omitempty"`
+	Amnezia    *WireGuardAmnezia                `json:"amnezia,omitempty"`
 	DialerOptions
 }
 
@@ -44,6 +45,7 @@ type LegacyWireGuardOutboundOptions struct {
 	Workers       int         `json:"workers,omitempty"`
 	MTU           uint32      `json:"mtu,omitempty"`
 	Network       NetworkList `json:"network,omitempty"`
+	Amnezia       *WireGuardAmnezia `json:"amnezia,omitempty"`
 }
 
 type LegacyWireGuardPeer struct {
@@ -52,4 +54,16 @@ type LegacyWireGuardPeer struct {
 	PreSharedKey string                           `json:"pre_shared_key,omitempty"`
 	AllowedIPs   badoption.Listable[netip.Prefix] `json:"allowed_ips,omitempty"`
 	Reserved     []uint8                          `json:"reserved,omitempty"`
+}
+
+type WireGuardAmnezia struct {
+	JC   int    `json:"jc,omitempty"`
+	JMin int    `json:"jmin,omitempty"`
+	JMax int    `json:"jmax,omitempty"`
+	S1   int    `json:"s1,omitempty"`
+	S2   int    `json:"s2,omitempty"`
+	H1   uint32 `json:"h1,omitempty"`
+	H2   uint32 `json:"h2,omitempty"`
+	H3   uint32 `json:"h3,omitempty"`
+	H4   uint32 `json:"h4,omitempty"`
 }
