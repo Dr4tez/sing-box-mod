@@ -8,6 +8,7 @@ import (
 	"net"
 	"net/netip"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/sagernet/sing/common"
@@ -179,6 +180,17 @@ func (e *Endpoint) Start(resolve bool) error {
 	wgDevice := device.NewDevice(e.options.Context, e.tunDevice, bind, logger, e.options.Workers)
 	e.tunDevice.SetDevice(wgDevice)
 	ipcConf := e.ipcConf
+	if e.options.Amnezia != nil {
+		ipcConf += "\njc=" + strconv.Itoa(e.options.Amnezia.JC) + "\n"
+		ipcConf += "jmin=" + strconv.Itoa(e.options.Amnezia.JMin) + "\n"
+		ipcConf += "jmax=" + strconv.Itoa(e.options.Amnezia.JMax) + "\n"
+		ipcConf += "s1=" + strconv.Itoa(e.options.Amnezia.S1) + "\n"
+		ipcConf += "s2=" + strconv.Itoa(e.options.Amnezia.S2) + "\n"
+		ipcConf += "h1=" + strconv.FormatUint(uint64(e.options.Amnezia.H1), 10) + "\n"
+		ipcConf += "h2=" + strconv.FormatUint(uint64(e.options.Amnezia.H2), 10) + "\n"
+		ipcConf += "h3=" + strconv.FormatUint(uint64(e.options.Amnezia.H3), 10) + "\n"
+		ipcConf += "h4=" + strconv.FormatUint(uint64(e.options.Amnezia.H4), 10)
+	}
 	for _, peer := range e.peers {
 		ipcConf += peer.GenerateIpcLines()
 	}
