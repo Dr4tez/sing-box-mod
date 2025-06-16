@@ -1,6 +1,6 @@
 module github.com/sagernet/sing-box
 
-go 1.24.1
+go 1.23.6
 
 toolchain go1.24.3
 
