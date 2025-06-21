@@ -56,6 +56,20 @@ func NewEndpoint(ctx context.Context, router adapter.Router, logger log.ContextL
 	} else {
 		udpTimeout = C.UDPTimeout
 	}
+	var amnezia *wireguard.AmneziaOptions
+	if options.Amnezia != nil {
+		amnezia = &wireguard.AmneziaOptions{
+			JC:   options.Amnezia.JC,
+			JMin: options.Amnezia.JMin,
+			JMax: options.Amnezia.JMax,
+			S1:   options.Amnezia.S1,
+			S2:   options.Amnezia.S2,
+			H1:   options.Amnezia.H1,
+			H2:   options.Amnezia.H2,
+			H3:   options.Amnezia.H3,
+			H4:   options.Amnezia.H4,
+		}
+	}
 	wgEndpoint, err := wireguard.NewEndpoint(wireguard.EndpointOptions{
 		Context:    ctx,
 		Logger:     logger,
@@ -91,6 +105,7 @@ func NewEndpoint(ctx context.Context, router adapter.Router, logger log.ContextL
 			}
 		}),
 		Workers: options.Workers,
+		Amnezia: amnezia,
 	})
 	if err != nil {
 		return nil, err
